@@ -47,6 +47,42 @@ public class SolverTests {
             for (int j = 0; j < sizeX; j++) solved[j][i] = solver.solvedField[j][i].minesAround;
         }
         assertArrayEquals(inputField, solved);
+
+        inputFileName = "input/example2.txt";
+        input = new ArrayList<>();
+        try {
+            fileReader = new FileReader(inputFileName);
+            BufferedReader reader = new BufferedReader(fileReader);
+            String line = reader.readLine();
+            while (line != null) {
+                input.add(line);
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        sizeX = Integer.parseInt(input.get(0).split(" ")[0]);
+        sizeY = Integer.parseInt(input.get(0).split(" ")[1]);
+        mines = Integer.parseInt(input.get(0).split(" ")[2]);
+
+        inputField = new int[sizeX][sizeY];
+        for (int i = 1; i < input.size(); i++) {
+            int index = 0;
+            for (String j : input.get(i).split(" ")) {
+                inputField[index][i - 1] = Integer.parseInt(j);
+                index++;
+            }
+        }
+
+        solver = new Solver(sizeX, sizeY, mines, inputField);
+        solver.solve();
+        solved = new int[sizeX][sizeY];
+        for (int i = 0; i < sizeY; i++) {
+            for (int j = 0; j < sizeX; j++) solved[j][i] = solver.solvedField[j][i].minesAround;
+        }
+        assertArrayEquals(inputField, solved);
     }
 
 }
