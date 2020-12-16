@@ -28,6 +28,7 @@ public class Solver {
         }
     }
 
+    // Check for non-opened or flagged cells around input cells.
     public void checkAround(Cell cell) {
         cell.flaggedAround = 0;
         cell.closedAround = 0;
@@ -39,6 +40,8 @@ public class Solver {
             }
         }
     }
+
+    // Open the cell or area around equal to zero cells, if solver tries to open cell with mine mineOpened equals true.
 
     public void open(Cell cell) {
         if (!cell.opened) {
@@ -69,6 +72,7 @@ public class Solver {
         closed--;
     }
 
+    // Count the probability that mine is in a cell based on data from cells around.
     public void countProbability(Cell cell) {
         probabilityField[cell.x][cell.y] = 0;
         if (solvedField[cell.x][cell.y].closedAround == 8 || solvedField[cell.x][cell.y].opened || solvedField[cell.x][cell.y].flagged)
@@ -89,6 +93,7 @@ public class Solver {
         }
     }
 
+    // Find the minimum probability for each closed cell next to non-zero or flagged cells by iterating through an array of all cells.
     public Cell minProbability() {
         double min = 0;
         int xMin = 0;
@@ -106,6 +111,7 @@ public class Solver {
         return solvedField[xMin][yMin];
     }
 
+    // Iterate through cellsToAnalyze and open or flag cells whenever possible.
     public int iterating() {
         int countChanges = 0;
         List<Cell> cellsToOpen = new ArrayList();
@@ -140,6 +146,7 @@ public class Solver {
         return countChanges;
     }
 
+    // Open cells until all mines are flagged or the cell with a mine is not opened.
     public void solve() {
         Random rand = new Random();
         int randX;
