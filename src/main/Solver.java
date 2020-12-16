@@ -83,13 +83,13 @@ public class Solver {
                     if ((i != 0 || j != 0) && cell.x + i >= 0 && cell.x + i < width && cell.y + j >= 0 && cell.y + j < height
                             && !solvedField[cell.x][cell.y].opened && !solvedField[cell.x][cell.y].flagged
                             && solvedField[cell.x + i][cell.y + j].opened)
-                        probabilityField[cell.x][cell.y] = 1 - (1 - probabilityField[cell.x][cell.y]) * (1 -
-                                ((solvedField[cell.x + i][cell.y + j].minesAround - solvedField[cell.x + i][cell.y + j].flaggedAround)
+                        probabilityField[cell.x][cell.y] = 1.0 - (1 - probabilityField[cell.x][cell.y]) *
+                                (1 - ((double) (solvedField[cell.x + i][cell.y + j].minesAround - solvedField[cell.x + i][cell.y + j].flaggedAround)
                                         / solvedField[cell.x + i][cell.y + j].closedAround));
                 }
 
             }
-            probabilityField[cell.x][cell.y] = (mines - minesFlagged) / closed;
+            probabilityField[cell.x][cell.y] = (double) (mines - minesFlagged) / closed;
         }
     }
 
@@ -151,7 +151,7 @@ public class Solver {
         Random rand = new Random();
         int randX;
         int randY;
-        //To prevent the minesweeper solver from hitting a mine on the first move,
+        // To prevent the minesweeper solver from hitting a mine on the first move,
         // we will make it so that it does not run the solution from an inappropriate cell
         do {
             randX = rand.nextInt(width);
