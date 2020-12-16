@@ -29,9 +29,9 @@ public class MinesweeperSolver {
             e.printStackTrace();
         }
 
-        FileReader fileReader = null;
+        FileReader fileReader;
         try {
-            fileReader = new FileReader(new File("input/" + inputFileName +".txt"));
+            fileReader = new FileReader(inputFileName);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = reader.readLine();
             while (line != null) {
@@ -46,22 +46,33 @@ public class MinesweeperSolver {
         int sizeX = Integer.parseInt(input.get(0).split(" ")[0]);
         int sizeY = Integer.parseInt(input.get(0).split(" ")[1]);
         int mines = Integer.parseInt(input.get(0).split(" ")[2]);
-        Field field = new Field(sizeX, sizeY, mines);
-        field.inputField(input);
-        Solver solver = new Solver(sizeX, sizeY, mines);
-        solver.solve(field);
-        Field solvedField = solver.solve(field);
-        List<String> solved = new ArrayList();
-        StringBuilder current = new StringBuilder();
-        solved.add(sizeX + " " + sizeY + " " + mines);
-        for (int i = 0; i < sizeY; i++) {
-            current.append(solvedField.get(0, i));
-            for (int j = 1; j < sizeX; j++) {
-                current.append(" ").append(solvedField.get(j, i));
+
+        int[][] inputField = new int[sizeX][sizeY];
+        for (int i = 1; i < input.size(); i++) {
+            int index = 0;
+            for (String j: input.get(i).split(" ")) {
+                inputField[index][i-1] = Integer.parseInt(j);
+                index++;
             }
-            solved.add(current.toString());
-            current = new StringBuilder();
         }
-        if (input.equals(solved)) System.out.println("solved");
+
+        Solver solver = new Solver(sizeX, sizeY, mines, inputField);
+        solver.solve();
+
+        StringBuilder output = new StringBuilder();
+        int[][] solved = new int[sizeX][sizeY];
+        for (int i = 0; i < sizeY; i++) {
+            for (int j = 0; j < sizeX; j++) {
+                solved[j][i] = solver.solvedField[j][i].minesAround;
+                // "c" for closed, "f" for flagged mines.
+                output.append(solver.solvedField[j][i].flagged ? "f " : solved[j][i] == -1 ? "c " : solved[j][i] + " ");
+            }
+            output.append("\n");
+        }
+
+        if (Arrays.deepEquals(solved, inputField)) System.out.println("Solved\n");
+        else System.out.println("Not solved\n");
+        System.out.println("Calculated field:");
+        System.out.println(output);
     }
 }
