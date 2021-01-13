@@ -28,6 +28,20 @@ public class Solver {
         }
     }
 
+    public void fill(){
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (inputField[i][j] == 9)
+                    for (int k = -1; k <= 1; k++) {
+                        for (int l = -1; l <= 1; l++) {
+                            if ((k != 0 || l != 0) && i + k >= 0 && i + k < width && j + l >= 0 &&
+                                    j + l < height && inputField[i + k][j + l] != 9) inputField[i + k][j + l]++;
+                        }
+                    }
+            }
+        }
+     }
+
     // Check for non-opened or flagged cells around input cells.
     public void checkAround(Cell cell) {
         cell.flaggedAround = 0;
@@ -154,6 +168,7 @@ public class Solver {
 
     // Open cells until all mines are flagged or the cell with a mine is not opened.
     public void solve(int randX, int randY) {
+        fill();
         open(solvedField[randX][randY]);
         int changes = iterating();
         while (changes != 0  && mines > minesFlagged && !mineOpened) {
