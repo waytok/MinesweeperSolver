@@ -2,7 +2,6 @@ public class Cell {
     int x;
     int y;
     int minesAround;
-    boolean hasMine;
     boolean opened;
     boolean flagged;
     int closedAround;
@@ -12,7 +11,6 @@ public class Cell {
         this.x = x;
         this.y = y;
         this.minesAround = minesAround;
-        this.hasMine = false;
         this.opened = false;
         this.flagged = false;
     }

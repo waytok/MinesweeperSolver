@@ -41,7 +41,7 @@ public class SolverTests {
         }
 
         Solver solver = new Solver(sizeX, sizeY, mines, inputField);
-        solver.solve();
+        solver.solve(1, 4);
         int[][] solved = new int[sizeX][sizeY];
         for (int i = 0; i < sizeY; i++) {
             for (int j = 0; j < sizeX; j++) solved[j][i] = solver.solvedField[j][i].minesAround;
@@ -77,7 +77,7 @@ public class SolverTests {
         }
 
         solver = new Solver(sizeX, sizeY, mines, inputField);
-        solver.solve();
+        solver.solve(4, 6);
         solved = new int[sizeX][sizeY];
         for (int i = 0; i < sizeY; i++) {
             for (int j = 0; j < sizeX; j++) solved[j][i] = solver.solvedField[j][i].minesAround;

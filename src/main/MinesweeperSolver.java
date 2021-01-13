@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class MinesweeperSolver {
 
@@ -56,8 +57,12 @@ public class MinesweeperSolver {
             }
         }
 
+        Random rand = new Random();
+        int randX = rand.nextInt();
+        int randY = rand.nextInt();
+
         Solver solver = new Solver(sizeX, sizeY, mines, inputField);
-        solver.solve();
+        solver.solve(randX, randY);
 
         StringBuilder output = new StringBuilder();
         int[][] solved = new int[sizeX][sizeY];
